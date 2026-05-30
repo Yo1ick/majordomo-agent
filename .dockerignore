@@ -1,0 +1,46 @@
+# Python 虚拟环境和缓存不进入镜像，镜像内会重新用 uv 安装依赖。
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 本地密钥和真实环境配置绝不打进镜像。
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Git/IDE/系统文件不影响运行，排除可减少 build context。
+.git/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 旧 JS 代码本次不运行，排除以保持镜像小而专。
+legacy/
+node_modules/
+
+# 用户数据和大模型权重不进入镜像；运行时用 volume 或宿主机服务。
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/photos/
+data/sessions/
+data/snapshots/
+.mlx-prod/
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# 日志和构建产物。
+*.log
+logs/
+dist/
+build/

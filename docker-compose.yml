@@ -1,0 +1,37 @@
+# Compose 只启动应用容器；MLX / Ollama 推理服务不放在这里。
+# 原因：MLX 依赖 Mac 宿主机硬件，Ollama 可能跑在 Windows 或局域网其他机器。
+
+services:
+  # 个人管家应用本体：负责 CLI / 未来 FastAPI / router / agents。
+  butler-app:
+    # 使用当前目录下的 Dockerfile 构建镜像。
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # 给容器取一个固定名字，方便 docker logs / docker exec 时定位。
+    container_name: majordomo-butler-app
+
+    # 本次默认跑 CLI；保持 stdin/tty，方便 docker compose run 时交互输入。
+    stdin_open: true
+    tty: true
+
+    # 从真实 .env 注入 provider 配置；.env 已被 .gitignore 排除。
+    env_file:
+      - .env
+
+    # 容器内默认工作目录，与 Dockerfile 的 /app 保持一致。
+    working_dir: /app
+
+    # 把宿主机 data/ 挂载进容器，SQLite 文件才能持久化到项目目录。
+    # schema.sql 会随镜像复制；butler.db 这类个人数据只留在宿主机 volume 中。
+    volumes:
+      - ./data:/app/data
+
+    # 容器访问宿主机 Mac 上的 mlx_lm.server 时使用 host.docker.internal。
+    # 访问 Windows Ollama 时，使用 .env 里的 WIN_LAN_IP / WIN_OLLAMA_BASE_URL。
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # 容器异常退出时不要无限重启 CLI，方便看到错误并修配置。
+    restart: "no"
