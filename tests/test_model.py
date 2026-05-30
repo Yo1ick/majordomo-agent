@@ -50,7 +50,7 @@ def providers() -> dict[str, Provider]:
     return {
         "mac-mlx": Provider(
             name="mac-mlx",
-            base_url="http://localhost:8000/v1",
+            base_url="http://localhost:8080/v1",
             api_key="local-key",
             model="gemma-4-e4b-it",
             kind="local_mlx",
@@ -76,7 +76,7 @@ def test_chat_uses_default_provider_and_returns_string() -> None:
     result = client.chat([{"role": "user", "content": "ping"}])
 
     assert result == "pong"
-    assert FakeOpenAI.instances[0].base_url == "http://localhost:8000/v1"
+    assert FakeOpenAI.instances[0].base_url == "http://localhost:8080/v1"
     assert FakeOpenAI.instances[0].api_key == "local-key"
     assert FakeOpenAI.instances[0].calls[0]["model"] == "gemma-4-e4b-it"
 
@@ -118,7 +118,7 @@ def test_load_providers_builds_openai_compatible_provider_map() -> None:
         _env_file=None,
         DEFAULT_PROVIDER="win-ollama",
         GEMMA_MODEL="gemma-test",
-        MAC_MLX_BASE_URL="http://host.docker.internal:8000/v1",
+        MAC_MLX_BASE_URL="http://host.docker.internal:8080/v1",
         WIN_LAN_IP="192.168.1.8",
         WIN_OLLAMA_BASE_URL=None,
         CLOUD_BASE_URL="https://cloud.test/v1",
@@ -129,6 +129,6 @@ def test_load_providers_builds_openai_compatible_provider_map() -> None:
     loaded = load_providers(settings)
 
     assert set(loaded) == {"mac-mlx", "win-ollama", "cloud"}
-    assert loaded["mac-mlx"].base_url == "http://host.docker.internal:8000/v1"
+    assert loaded["mac-mlx"].base_url == "http://host.docker.internal:8080/v1"
     assert loaded["win-ollama"].base_url == "http://192.168.1.8:11434/v1"
     assert loaded["cloud"].api_key == "cloud-key"

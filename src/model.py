@@ -2,14 +2,19 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Literal, Protocol
+from typing import Any, Literal, Protocol, TypeAlias
 
 from openai import APIConnectionError, APIError, OpenAI
 
 from src.config import Settings, get_settings
 
 ProviderKind = Literal["local_mlx", "lan_ollama", "cloud"]
-ChatMessage = dict[str, str]
+TextPart = dict[str, str]
+ImagePart = dict[str, Any]
+AudioPart = dict[str, Any]
+ContentPart: TypeAlias = TextPart | ImagePart | AudioPart
+MessageContent: TypeAlias = str | list[ContentPart]
+ChatMessage: TypeAlias = dict[str, MessageContent]
 
 
 @dataclass(frozen=True)
@@ -123,7 +128,13 @@ class ModelClient:
     ) -> str:
         """Return assistant text from the selected provider.
 
+        `messages[*]["content"]` accepts plain text today and is typed to also
+        allow OpenAI-style multimodal parts later. Gemma 4 E4B is served by
+        mlx-vlm, so future diet photo/audio flows can reuse this same
+        `/v1/chat/completions` path without changing the public method shape.
+
         TODO: 预留自动 fallback 顺序，例如 mac-mlx -> win-ollama -> cloud。
+        TODO: 为图像/音频输入补充更精确的 content part TypedDict，并增加测试。
         Week 1 先显式报错，避免本地服务没起时静默切云端造成成本和隐私意外。
         """
         provider = self._select_provider(provider_name)

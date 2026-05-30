@@ -7,7 +7,7 @@
 当前项目有三层：
 
 - `butler-app`：Python 应用，包含 CLI、router、core、model 抽象层。
-- MLX server：生产目标是在 Mac Mini 裸机上跑 `mlx_lm.server`，它需要直接使用 Mac 的硬件能力。
+- MLX VLM server：生产目标是在 Mac Mini 裸机上跑 `mlx_vlm.server`，它需要直接使用 Mac 的硬件能力，也支持后续图像/音频输入。
 - Ollama：可以跑在 Windows 或局域网其他机器上，通过 LAN IP 访问。
 
 因此 compose 只管理应用容器。模型服务独立运行，应用通过 OpenAI-compatible HTTP API 调它们。
@@ -23,14 +23,22 @@ cp .env.example .env
 本机直接运行 Python 时，Mac MLX 可以用：
 
 ```env
-MAC_MLX_BASE_URL=http://localhost:8000/v1
+MAC_MLX_BASE_URL=http://localhost:8080/v1
 ```
 
 应用跑在 Docker 容器里时，容器里的 `localhost` 指的是容器自己，不是 Mac 宿主机。所以要改成：
 
 ```env
-MAC_MLX_BASE_URL=http://host.docker.internal:8000/v1
+MAC_MLX_BASE_URL=http://host.docker.internal:8080/v1
 ```
+
+Mac 端启动 Gemma 4 E4B VLM 服务的命令是：
+
+```bash
+mlx_vlm.server --model mlx-community/gemma-4-e4b-it-4bit --port 8080
+```
+
+`mlx_vlm.server` 也提供 OpenAI-compatible `/v1/chat/completions`。当前 `model.py` 先只发送文本消息，但类型已经为未来的多模态 `content` parts 预留空间。
 
 如果要访问 Windows 上的 Ollama，把 `WIN_LAN_IP` 或 `WIN_OLLAMA_BASE_URL` 改成那台机器的局域网地址：
 
@@ -93,7 +101,7 @@ volumes:
 
 `host.docker.internal` 是什么？
 
-这是 Docker 提供的特殊主机名，让容器能访问宿主机。对本项目来说，它用于容器访问 Mac 裸机上的 `mlx_lm.server`。
+这是 Docker 提供的特殊主机名，让容器能访问宿主机。对本项目来说，它用于容器访问 Mac 裸机上的 `mlx_vlm.server`。
 
 为什么不把 MLX / Ollama 写成 compose service？
 

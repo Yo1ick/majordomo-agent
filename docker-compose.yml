@@ -28,7 +28,7 @@ services:
     volumes:
       - ./data:/app/data
 
-    # 容器访问宿主机 Mac 上的 mlx_lm.server 时使用 host.docker.internal。
+    # 容器访问宿主机 Mac 上的 mlx_vlm.server 时使用 host.docker.internal。
     # 访问 Windows Ollama 时，使用 .env 里的 WIN_LAN_IP / WIN_OLLAMA_BASE_URL。
     extra_hosts:
       - "host.docker.internal:host-gateway"

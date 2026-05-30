@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     gemma_model: str = Field(default="gemma-4-e4b-it", alias="GEMMA_MODEL")
 
     mac_mlx_base_url: str = Field(
-        default="http://localhost:8000/v1",
+        default="http://localhost:8080/v1",
         alias="MAC_MLX_BASE_URL",
     )
     mac_mlx_api_key: str = Field(default="local-dev-key", alias="MAC_MLX_API_KEY")
