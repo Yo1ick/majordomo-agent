@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Protocol
 
+from src.model import ChatMessage
 from src.router import Intent
 
 
@@ -14,7 +16,7 @@ class ChatModel(Protocol):
     Ollama 还是云端 API。这样以后替换模型实现时，Agent 业务逻辑不用改。
     """
 
-    def chat(self, messages: list[dict[str, str]], **kwargs: object) -> str:
+    def chat(self, messages: Sequence[ChatMessage], **kwargs: object) -> str:
         """Return the assistant text for the given conversation messages."""
 
 
