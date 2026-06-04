@@ -3,7 +3,10 @@ from __future__ import annotations
 from collections.abc import Mapping
 from dataclasses import dataclass
 
+from src.agents.finance import FinanceAgent
 from src.agents.base import BaseAgent, EchoAgent
+from src.database import Database
+from src.model import ModelClient
 from src.router import Intent, Router
 
 
@@ -25,12 +28,14 @@ class ButlerCore:
 
 
 def build_default_core() -> ButlerCore:
-    """Build a deterministic scaffold core for local CLI use."""
+    """Build the default local core without making network calls."""
+    model = ModelClient()
+    db = Database.from_settings()
     echo_agent = EchoAgent()
     return ButlerCore(
         router=Router(),
         agents={
-            Intent.FINANCE.value: echo_agent,
+            Intent.FINANCE.value: FinanceAgent(model=model, db=db),
             Intent.DIET.value: echo_agent,
             Intent.FITNESS.value: echo_agent,
             Intent.ECHO.value: echo_agent,
