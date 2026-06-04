@@ -116,7 +116,9 @@ class ModelClient:
         client_factory: ClientFactory = OpenAI,
     ) -> None:
         current = settings or get_settings()
-        self._providers = dict(providers) if providers is not None else load_providers(current)
+        self._providers = (
+            dict(providers) if providers is not None else load_providers(current)
+        )
         self._default_provider = default_provider or current.default_provider
         self._client_factory = client_factory
 
