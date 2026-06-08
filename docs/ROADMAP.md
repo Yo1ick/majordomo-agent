@@ -1,7 +1,7 @@
 # Personal Butler — Roadmap v3
 
 **Last updated:** 2026-05-17
-**Project type:** 个人项目 / 长期 OSS + 简历组合
+**Project type:** 个人项目 / 长期 OSS
 **Architecture status:** 见 `架构.md`(v1) / `docs/架构方案v2.md`(v2)
 **Pace:** **不冲 MVP**。慢炖,质量 > 速度。
 
@@ -11,7 +11,7 @@
 
 Personal Butler 是 **一石二鸟项目**:
 1. **个人用** —— 真实日常使用(饮食 / 财务 / 健身 / 知识),保证 dogfooding 反馈
-2. **简历 + 技能点** —— 通过它学/落地 3 个高 career signal 技术
+2. **深入实践** —— 借真实场景学透 3 个有挑战、含金量高的工程技术
 
 3 个学习中心(也是 3 个 phase 的主线):
 
@@ -99,10 +99,10 @@ Personal Butler 是 **一石二鸟项目**:
 - ✅ 有 5+ 个真实日常使用 case 验证 (你自己每天用)
 - ✅ Benchmark 表(本地 vs 云端)写进 README
 
-**Phase 1 简历卖点**:
-- "Multi-agent orchestrator 设计 + LLM 本地化推理(MLX/Qwen)"
-- "Intent-based 路由 + agent 间协同协议"
-- "本地 vs 云端 LLM benchmark"
+**Phase 1 技术产出**:
+- Multi-agent orchestrator 设计 + LLM 本地化推理(MLX/Qwen)
+- Intent-based 路由 + agent 间协同协议
+- 本地 vs 云端 LLM benchmark
 
 ---
 
@@ -136,10 +136,10 @@ Personal Butler 是 **一石二鸟项目**:
 - ✅ Eval 显示微调版相对原版有可测量改善
 - ✅ Personal Butler 实际在用微调版
 
-**Phase 2 简历卖点**:
-- "用自有数据 LoRA 微调 Qwen3.5-4B 本地模型, 量化评估前后效果"
-- "构建 fine-tuning data pipeline + eval harness"
-- 这条**极少有候选人真做过**,简历加分极强
+**Phase 2 技术产出**:
+- 用自有数据 LoRA 微调 Qwen3.5-4B 本地模型, 量化评估前后效果
+- 构建 fine-tuning data pipeline + eval harness
+- 端到端的微调闭环(数据→训练→评估→部署), 工程难度高
 
 ---
 
@@ -170,10 +170,10 @@ Personal Butler 是 **一石二鸟项目**:
 - ✅ Benchmark 表写进 README
 - ✅ 实际使用感受可见提升
 
-**Phase 3 简历卖点**:
-- "MLX KV cache 持久化 + 共享 + pruning 优化"
-- "LLM 推理性能优化, latency p95 优化 X%"
-- 这是 LLM internals 工程, **极硬核, 极少候选人有**
+**Phase 3 技术产出**:
+- MLX KV cache 持久化 + 共享 + pruning 优化
+- LLM 推理性能优化, latency p95 优化 X%
+- 深入 LLM inference internals, 工程难度高
 
 ---
 
@@ -204,8 +204,8 @@ Personal Butler 是 **一石二鸟项目**:
 - **不冲 MVP** —— 这是长期项目, 每 phase 独立有意义
 - **每 phase 一个技术中心** —— 学透一个, 再下一个
 - **dogfooding 优先** —— 你每天用, 才知道哪好哪坏
-- **简历组合** —— 每 phase 完都能在简历加 1-2 条具体技术点
-- **慢炖** —— 工作 / 求职 / 学习同时进行, 不与之争资源
+- **可沉淀** —— 每 phase 完都留下 1-2 个能讲清楚的具体技术点
+- **慢炖** —— 长线推进, 不抢占其他事的资源, 一点点炖出来
 
 ---
 
@@ -231,5 +231,5 @@ Personal Butler 是 **一石二鸟项目**:
 
 ## 🔗 相关项目
 
-- [`market-intel`](https://github.com/Yo1ick/market-intel) —— 简历主项目, 求职 ticket, 不变
+- [`market-intel`](https://github.com/Yo1ick/market-intel) —— 投资分析助手, 独立主项目, 不变
 - distillery (TBD) —— 从 Personal Butler 抽出的 procedural memory OSS, Phase 5 启动
